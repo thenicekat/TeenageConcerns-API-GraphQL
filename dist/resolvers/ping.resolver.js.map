@@ -1,0 +1,1 @@
+{"version":3,"file":"ping.resolver.js","sourceRoot":"","sources":["../../src/resolvers/ping.resolver.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,+CAA+C;AAG/C,IAAa,YAAY,GAAzB,MAAa,YAAY;IAErB,IAAI;QACA,OAAO,OAAO,CAAC;IACnB,CAAC;CACJ,CAAA;AAHG;IADC,IAAA,oBAAK,EAAC,GAAG,EAAE,CAAC,MAAM,CAAC;;;;wCAGnB;AAJQ,YAAY;IADxB,IAAA,uBAAQ,GAAE;GACE,YAAY,CAKxB;AALY,oCAAY"}
