@@ -1,7 +1,12 @@
-# Awesome Project Build with TypeORM
+# Teenage Concerns API - GraphQL Version
 
-Steps to run this project:
+## Installation
+Run `yarn dev` and go to http://localhost:5000/graphql to query the server
 
-1. Run `npm i` command
-2. Setup database settings inside `data-source.ts` file
-3. Run `npm start` command
+## Testing
+Run `yarn test` to run the tests
+Tests are written in the tests folder
+
+## Queries and Mutation
+Most of the Queries and mutations are in the graphql folder
+
