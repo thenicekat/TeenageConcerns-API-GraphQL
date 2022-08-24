@@ -12,11 +12,6 @@ export class MeReturn{
 
 @Resolver()
 export class CommonResolver{
-    @Query(() => String)
-    ping(){
-        return "pong!";
-    }
-
     @Query(() => MeReturn, { nullable: true })
     whoAmI (
         @Ctx() { req }: Context
