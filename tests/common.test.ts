@@ -1,4 +1,4 @@
-import { testCall } from "./testCall";
+import { testMutation } from "./testKit";
 import { whoAmI } from "./../graphql/queries/whoami";
 import { pubSub } from "./../src/schema";
 import { faker } from "@faker-js/faker";
@@ -14,7 +14,7 @@ beforeAll(async () => {
 
 describe("Tests the whoami query", () => {
     it("whoami when no details are given", async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: whoAmI,
         });
 
@@ -37,7 +37,7 @@ describe("Tests the whoami query", () => {
     });
 
     it("registers a test mentor", async () => {
-        const result = await testCall({
+        const result = await testMutation({
             source: MentorRegisterMutation,
             variables: {
                 name: tempMentor.name,
@@ -62,7 +62,7 @@ describe("Tests the whoami query", () => {
     });
 
     it('creates a test user with existing mentors', async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserRegister,
             isMentor: false,
         });
@@ -80,7 +80,7 @@ describe("Tests the whoami query", () => {
     })
 
     it("whoami for mentor", async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: whoAmI,
             mentorId: mentor.id,
             isMentor: true,
@@ -93,7 +93,7 @@ describe("Tests the whoami query", () => {
     });
 
     it("whoami for user", async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: whoAmI,
             userId: user.uuid,
             isMentor: false,

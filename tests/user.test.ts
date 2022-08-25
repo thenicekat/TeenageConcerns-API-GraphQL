@@ -1,5 +1,5 @@
 import { db } from "../src/data-source";
-import { testCall } from "./testCall";
+import { testMutation } from "./testKit";
 import { UserRegister } from "./../graphql/mutations/userRegister";
 import { Mentor } from './../src/entity/Mentor';
 import { faker } from "@faker-js/faker";
@@ -15,7 +15,7 @@ beforeAll(async () => {
 
 describe("Tests the user endpoints", () => {
     it("creates a test user without existing mentors", async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserRegister,
             isMentor: false,
         });
@@ -46,7 +46,7 @@ describe("Tests the user endpoints", () => {
     });
 
     it("registers a test mentor", async () => {
-        const result = await testCall({
+        const result = await testMutation({
             source: MentorRegisterMutation,
             variables: {
             name: tempMentor.name,
@@ -70,7 +70,7 @@ describe("Tests the user endpoints", () => {
     });
 
     it('creates a test user with existing mentors', async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserRegister,
             isMentor: false,
         });
@@ -88,7 +88,7 @@ describe("Tests the user endpoints", () => {
     })
 
     it('logs in with uuid', async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserLogin,
             variables: {
                 uuid: user.uuid
@@ -105,7 +105,7 @@ describe("Tests the user endpoints", () => {
     })
 
     it('deletes the user account when user is not logged in', async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserDelete,
             variables: {
                 uuid: user.uuid
@@ -123,7 +123,7 @@ describe("Tests the user endpoints", () => {
     })
 
     it('deletes the user account when user is logged in', async () => {
-        const res = await testCall({
+        const res = await testMutation({
             source: UserDelete,
             variables: {
                 uuid: user.uuid

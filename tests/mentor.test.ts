@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { db } from "../src/data-source";
-import { testCall } from "./testCall";
+import { testMutation } from "./testKit";
 import { MentorRegisterMutation } from "../graphql/mutations/mentorRegisterMutation";
 import { MentorLoginMutation } from "../graphql/mutations/mentorLoginMutation";
 import { Mentor } from './../src/entity/Mentor';
@@ -25,7 +25,7 @@ describe("Tests the Mentor Endpoint", () => {
   });
 
   it("registers a test mentor", async () => {
-    const result = await testCall({
+    const result = await testMutation({
       source: MentorRegisterMutation,
       variables: {
         name: tempMentor.name,
@@ -49,7 +49,7 @@ describe("Tests the Mentor Endpoint", () => {
   });
 
   it('logins in the test mentor', async () => {
-    const res = await testCall({
+    const res = await testMutation({
       source: MentorLoginMutation,
       variables: {
         email: tempMentor.email,
@@ -66,7 +66,7 @@ describe("Tests the Mentor Endpoint", () => {
   });
 
   it('logging out the mentor without auth', async () => {
-    const res = await testCall({
+    const res = await testMutation({
       source: MentorLogoutMutation,
       isMentor: false
     })
@@ -78,7 +78,7 @@ describe("Tests the Mentor Endpoint", () => {
   })
 
   it('logging out the mentor with auth', async () => {
-    const res = await testCall({
+    const res = await testMutation({
       source: MentorLogoutMutation,
       isMentor: true,
       mentorId: mentor.id
