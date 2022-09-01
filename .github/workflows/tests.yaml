@@ -1,0 +1,20 @@
+name: TESTS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  run-unit-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+      
+      - name: Build Container using docker compose
+        run: docker compose build
+      
+      - name: Run the tests and give coverage
+        run: docker compose -f docker-compose.prod.yml run teenage-concerns-graphql-api yarn test
