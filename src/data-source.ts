@@ -6,7 +6,7 @@ import { __test__ } from "./constants";
 
 const AppDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
+    host: "postgres",
     port: 5432,
     username: "postgres",
     password: "postgres",
@@ -20,7 +20,7 @@ const AppDataSource = new DataSource({
 
 const TestDataSource = new DataSource({
     type: "postgres",
-    host: "localhost",
+    host: "postgres",
     port: 5432,
     username: "postgres",
     password: "postgres",

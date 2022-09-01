@@ -9,8 +9,8 @@ import { MessageResolver } from "./resolvers/message.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 
 export const pubSub = new RedisPubSub({
-  publisher: new Redis(),
-  subscriber: new Redis(),
+  publisher: new Redis({ host: "redis" }),
+  subscriber: new Redis({ host: "redis" }),
 });
 
 export const createSchema = () => buildSchema({

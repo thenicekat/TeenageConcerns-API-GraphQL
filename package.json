@@ -21,7 +21,7 @@
    "scripts": {
       "watch": "tsc -w",
       "dev": "nodemon dist/index.js",
-      "start": "ts-node src/index.ts",
+      "start": "nodemon src/index.ts",
       "test": "jest --detectOpenHandles --coverage",
       "typeorm": "typeorm-ts-node-commonjs"
    },

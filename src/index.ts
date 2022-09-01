@@ -25,7 +25,9 @@ db.initialize()
     const app = express();
     const server = createServer(app);
 
-    const redis = new Redis();
+    const redis = new Redis({
+      host: "redis"
+    });
 
     app.use(
       session({
