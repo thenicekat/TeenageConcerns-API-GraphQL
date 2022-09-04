@@ -53,10 +53,11 @@ export const testMutation = async ({
 
 export const testSubscription = async ({ subscription, mutation, variablesSubscription}: SubOptions) => {
 	if (!schema) schema = await createSchema();
-	return subscribe({
+	const subs = subscribe({
 		schema: schema,
 		document: parse(subscription),
 		rootValue: mutation,
 		variableValues: variablesSubscription
 	})
+	return subs;
 }
