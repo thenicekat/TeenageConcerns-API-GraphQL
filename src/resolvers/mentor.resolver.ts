@@ -23,6 +23,17 @@ export class MentorResolver {
     @Arg("password") password: string,
     @Ctx() { db, req }: Context
   ): Promise<MentorReturn> {
+    if(!name || !email || !password){
+      return {
+        errors: [
+          {
+            field: "all",
+            message: "Invalid Form of Credentials",
+          },
+        ],
+      };
+    }
+
     const hash = await argon2.hash(password);
     const mentor = db.manager.create(Mentor, {
       name,
@@ -57,6 +68,17 @@ export class MentorResolver {
     @Arg("password") password: string,
     @Ctx() { db, req }: Context
   ): Promise<MentorReturn> {
+    if(!email || !password){
+      return {
+        errors: [
+          {
+            field: "all",
+            message: "Invalid Form of Credentials",
+          },
+        ],
+      };
+    }
+    
     const mentor = await db
       .getRepository(Mentor)
       .createQueryBuilder("mentor")
