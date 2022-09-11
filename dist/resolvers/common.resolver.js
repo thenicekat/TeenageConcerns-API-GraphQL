@@ -29,9 +29,6 @@ MeReturn = __decorate([
 ], MeReturn);
 exports.MeReturn = MeReturn;
 let CommonResolver = class CommonResolver {
-    ping() {
-        return "pong!";
-    }
     whoAmI({ req }) {
         if (req.session.isMentor) {
             return {
@@ -43,12 +40,6 @@ let CommonResolver = class CommonResolver {
         };
     }
 };
-__decorate([
-    (0, type_graphql_1.Query)(() => String),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], CommonResolver.prototype, "ping", null);
 __decorate([
     (0, type_graphql_1.Query)(() => MeReturn, { nullable: true }),
     __param(0, (0, type_graphql_1.Ctx)()),

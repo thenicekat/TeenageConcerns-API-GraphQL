@@ -37,6 +37,16 @@ MentorReturn = __decorate([
 exports.MentorReturn = MentorReturn;
 let MentorResolver = class MentorResolver {
     async mentorRegister(name, email, password, { db, req }) {
+        if (!name || !email || !password) {
+            return {
+                errors: [
+                    {
+                        field: "all",
+                        message: "Invalid Form of Credentials",
+                    },
+                ],
+            };
+        }
         const hash = await argon2_1.default.hash(password);
         const mentor = db.manager.create(Mentor_1.Mentor, {
             name,
@@ -64,6 +74,16 @@ let MentorResolver = class MentorResolver {
         return { mentor };
     }
     async mentorLogin(email, password, { db, req }) {
+        if (!email || !password) {
+            return {
+                errors: [
+                    {
+                        field: "all",
+                        message: "Invalid Form of Credentials",
+                    },
+                ],
+            };
+        }
         const mentor = await db
             .getRepository(Mentor_1.Mentor)
             .createQueryBuilder("mentor")

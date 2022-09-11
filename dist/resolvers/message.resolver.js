@@ -30,7 +30,7 @@ let MessageResolver = class MessageResolver {
         return message;
     }
     async receiveMessage(topic, root) {
-        console.log(root);
+        console.log(topic);
         return root;
     }
 };

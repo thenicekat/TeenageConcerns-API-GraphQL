@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Mentor_1 = require("../entity/Mentor");
+const Mentor_1 = require("./Mentor");
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -31,7 +31,7 @@ __decorate([
     __metadata("design:type", Number)
 ], User.prototype, "mentorId", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(),
+    (0, type_graphql_1.Field)(() => Mentor_1.Mentor),
     (0, typeorm_1.ManyToOne)(() => Mentor_1.Mentor, mentor => mentor.users),
     __metadata("design:type", Mentor_1.Mentor)
 ], User.prototype, "mentor", void 0);

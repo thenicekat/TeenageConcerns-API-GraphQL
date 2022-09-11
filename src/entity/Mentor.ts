@@ -35,4 +35,8 @@ export class Mentor extends BaseEntity{
     @Field()
     @UpdateDateColumn()
     updatedAt: Date
+
+    @Field()
+    @Column()
+    rating: number
 }

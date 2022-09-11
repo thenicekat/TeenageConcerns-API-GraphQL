@@ -13,7 +13,7 @@ import { db } from "./data-source";
 
 import Redis from "ioredis";
 
-import { COOKIE_KEY, PORT, __prod__ } from "./constants";
+import { COOKIE_KEY, PORT, __local__, __prod__ } from "./constants";
 
 import chalk from "chalk";
 import { createSchema } from "./schema";
@@ -26,7 +26,7 @@ db.initialize()
     const server = createServer(app);
 
     const redis = new Redis({
-      host: "redis"
+      host: __local__ ? "localhost" : "redis"
     });
 
     app.use(
