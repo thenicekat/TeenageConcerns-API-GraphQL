@@ -56,7 +56,7 @@ let UserResolver = class UserResolver {
         const newUUID = (0, uuid_1.v4)();
         const mentors = await db.manager.find(Mentor_1.Mentor, {
             order: {
-                noOfUsers: "ASC"
+                rating: "DESC"
             }
         });
         if (mentors.length < 1) {
@@ -67,13 +67,27 @@ let UserResolver = class UserResolver {
                     }]
             };
         }
+        let i;
+        for (i = 0; i < mentors.length; i++) {
+            if (mentors[i].freeToWork) {
+                break;
+            }
+        }
+        if (i >= mentors.length) {
+            return {
+                errors: [{
+                        field: "Mentor Avaliablility",
+                        message: "No Free Mentor Available"
+                    }]
+            };
+        }
         const user = db.manager.create(User_1.User, {
             uuid: newUUID,
-            mentorId: mentors[0].id
+            mentorId: mentors[i].id
         });
         await db.manager.save(user);
-        mentors[0].noOfUsers = mentors[0].noOfUsers + 1;
-        await db.manager.save(mentors[0]);
+        mentors[i].noOfUsers = mentors[i].noOfUsers + 1;
+        await db.manager.save(mentors[i]);
         const resultUser = await db.getRepository(User_1.User).
             createQueryBuilder("user")
             .innerJoinAndSelect("user.mentor", "m", 'm.id = user.mentorId')
@@ -91,7 +105,7 @@ let UserResolver = class UserResolver {
         req.session.userId = newUUID;
         return { user: resultUser };
     }
-    async userDelete(uuid, { req }) {
+    async userDelete(uuid, { req, db }) {
         const user = await User_1.User.find({
             where: { uuid: uuid }
         });
@@ -100,6 +114,13 @@ let UserResolver = class UserResolver {
         await User_1.User.delete({
             uuid: uuid
         });
+        const mentor = await Mentor_1.Mentor.findOne({
+            where: {
+                id: user[0].mentorId
+            }
+        });
+        const updatedUserLength = (mentor === null || mentor === void 0 ? void 0 : mentor.noOfUsers) && ((mentor === null || mentor === void 0 ? void 0 : mentor.noOfUsers) - 1);
+        await db.manager.save(Mentor_1.Mentor, Object.assign(Object.assign({}, mentor), { noOfUsers: updatedUserLength }));
         req.session.destroy((err) => {
             return err && false;
         });

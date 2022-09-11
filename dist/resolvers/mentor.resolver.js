@@ -21,6 +21,7 @@ const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
 const types_1 = require("../types");
 const auth_middleware_1 = require("../middleware/auth.middleware");
+const auth_middleware_2 = require("./../middleware/auth.middleware");
 let MentorReturn = class MentorReturn {
 };
 __decorate([
@@ -125,6 +126,34 @@ let MentorResolver = class MentorResolver {
             res(true);
         }));
     }
+    async mentorRate(rating, id, { db }) {
+        const mentor = await db.getRepository(Mentor_1.Mentor).findOne({
+            where: { id: id }
+        });
+        if (!mentor) {
+            return 0;
+        }
+        const newRating = (mentor === null || mentor === void 0 ? void 0 : mentor.rating) == 0 ? rating : ((Number(mentor === null || mentor === void 0 ? void 0 : mentor.rating) + rating) / 2);
+        const res = await db.manager.save(Mentor_1.Mentor, {
+            id: id,
+            rating: newRating
+        });
+        if (res)
+            return newRating;
+        return 0;
+    }
+    async mentorChangeWorkState(id, { db }) {
+        const mentor = await db.getRepository(Mentor_1.Mentor).findOne({
+            where: { id: id }
+        });
+        if (!mentor)
+            return false;
+        const currState = mentor === null || mentor === void 0 ? void 0 : mentor.freeToWork;
+        const newState = !currState;
+        const newMentor = Object.assign(Object.assign({}, mentor), { freeToWork: newState });
+        await db.manager.save(Mentor_1.Mentor, newMentor);
+        return true;
+    }
 };
 __decorate([
     (0, type_graphql_1.Mutation)(() => MentorReturn),
@@ -153,6 +182,24 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], MentorResolver.prototype, "mentorLogout", null);
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(auth_middleware_2.isAuthUser),
+    (0, type_graphql_1.Mutation)(() => Number),
+    __param(0, (0, type_graphql_1.Arg)("rating")),
+    __param(1, (0, type_graphql_1.Arg)("id")),
+    __param(2, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Number, Object]),
+    __metadata("design:returntype", Promise)
+], MentorResolver.prototype, "mentorRate", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __param(0, (0, type_graphql_1.Arg)("id")),
+    __param(1, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:returntype", Promise)
+], MentorResolver.prototype, "mentorChangeWorkState", null);
 MentorResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], MentorResolver);

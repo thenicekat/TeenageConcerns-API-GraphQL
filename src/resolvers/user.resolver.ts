@@ -55,7 +55,7 @@ export class UserResolver {
         const newUUID = uuidv4();
         const mentors = await db.manager.find(Mentor, {
             order: {
-                noOfUsers: "ASC"
+                rating: "DESC"
             }
         });
 
@@ -68,15 +68,32 @@ export class UserResolver {
                 }]
             }
         }
+        
+        //Find the first user who is free to work
+        let i;
+        for(i = 0; i < mentors.length; i++){
+            if(mentors[i].freeToWork){
+                break;
+            }
+        }
+
+        if(i >= mentors.length){
+            return {
+                errors: [{
+                    field: "Mentor Avaliablility",
+                    message: "No Free Mentor Available"
+                }]
+            }
+        }
 
         // Create a user
         const user = db.manager.create(User, {
             uuid: newUUID,
-            mentorId: mentors[0].id
+            mentorId: mentors[i].id
         })  
         await db.manager.save(user);
-        mentors[0].noOfUsers = mentors[0].noOfUsers + 1;
-        await db.manager.save(mentors[0]);
+        mentors[i].noOfUsers = mentors[i].noOfUsers + 1;
+        await db.manager.save(mentors[i]);
 
         const resultUser = await db.getRepository(User).
         createQueryBuilder("user")
@@ -107,7 +124,7 @@ export class UserResolver {
     @Mutation(() => Boolean)
     async userDelete (
         @Arg('uuid') uuid: string,
-        @Ctx() { req }: Context
+        @Ctx() { req, db }: Context
     ){
         const user = await User.find({
             where: {uuid: uuid}
@@ -115,6 +132,16 @@ export class UserResolver {
         if(!user.length) return false;
         await User.delete({
             uuid: uuid
+        })
+        const mentor = await Mentor.findOne({
+            where: {
+                id: user[0].mentorId
+            }
+        })
+        const updatedUserLength = mentor?.noOfUsers && (mentor?.noOfUsers - 1);
+        await db.manager.save(Mentor, {
+            ...mentor,
+            noOfUsers: updatedUserLength
         })
         req.session.destroy((err) => {
             return err && false;

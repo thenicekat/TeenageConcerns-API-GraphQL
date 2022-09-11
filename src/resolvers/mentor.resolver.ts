@@ -4,6 +4,7 @@ import { Arg, Ctx, Field, Mutation, ObjectType, Resolver, UseMiddleware } from "
 import argon2 from "argon2";
 import { ErrorType } from "../types";
 import { isAuthMentor } from "../middleware/auth.middleware";
+import { isAuthUser } from './../middleware/auth.middleware';
 
 @ObjectType()
 export class MentorReturn {
@@ -23,7 +24,7 @@ export class MentorResolver {
     @Arg("password") password: string,
     @Ctx() { db, req }: Context
   ): Promise<MentorReturn> {
-    if(!name || !email || !password){
+    if (!name || !email || !password) {
       return {
         errors: [
           {
@@ -68,7 +69,7 @@ export class MentorResolver {
     @Arg("password") password: string,
     @Ctx() { db, req }: Context
   ): Promise<MentorReturn> {
-    if(!email || !password){
+    if (!email || !password) {
       return {
         errors: [
           {
@@ -78,7 +79,7 @@ export class MentorResolver {
         ],
       };
     }
-    
+
     const mentor = await db
       .getRepository(Mentor)
       .createQueryBuilder("mentor")
@@ -129,5 +130,53 @@ export class MentorResolver {
         res(true);
       })
     );
+  }
+
+  @UseMiddleware(isAuthUser)
+  @Mutation(() => Number)
+  async mentorRate(
+    @Arg("rating") rating: number,
+    @Arg("id") id: number,
+    @Ctx() { db }: Context
+  ) {
+    //Get existing Rating
+    const mentor = await db.getRepository(Mentor).findOne({
+      where: { id: id }
+    })
+
+    //If mentor doesn't exist
+    if (!mentor) {
+      return 0;
+    }
+
+    //Calculate new rating from the existing rating and save it
+    const newRating = mentor?.rating == 0 ? rating : ((Number(mentor?.rating) + rating) /2)
+    //console.log(Number(mentor?.rating), rating, newRating)
+    const res = await db.manager.save(Mentor, {
+      id: id,
+      rating: newRating
+    })
+
+    if(res) return newRating;
+    return 0;
+  }
+
+  @Mutation(() => Boolean)
+  async mentorChangeWorkState(
+    @Arg("id") id: number,
+    @Ctx() { db }: Context
+  ){
+    const mentor = await db.getRepository(Mentor).findOne({
+      where: { id: id }
+    })
+    if(!mentor) return false;
+    const currState = mentor?.freeToWork;
+    const newState = !currState;
+    const newMentor = {
+      ...mentor,
+      freeToWork: newState
+    }
+    await db.manager.save(Mentor, newMentor);
+    return true;
   }
 }

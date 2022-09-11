@@ -37,6 +37,10 @@ export class Mentor extends BaseEntity{
     updatedAt: Date
 
     @Field()
-    @Column()
+    @Column({type: "decimal", default: 0})
     rating: number
+
+    @Field()
+    @Column({ default: true })
+    freeToWork: boolean
 }
