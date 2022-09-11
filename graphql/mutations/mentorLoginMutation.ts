@@ -12,6 +12,8 @@ mutation MentorLogin($email: String!, $password: String!) {
             id
             name
             email
+            rating
+            freeToWork
             updatedAt
             createdAt
             noOfUsers

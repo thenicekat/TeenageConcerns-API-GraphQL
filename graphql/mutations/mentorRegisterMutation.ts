@@ -13,6 +13,8 @@ mutation MentorRegistration($email: String!, $password: String!, $name: String!)
             id
             name
             email
+            rating
+            freeToWork
             updatedAt
             createdAt
             noOfUsers

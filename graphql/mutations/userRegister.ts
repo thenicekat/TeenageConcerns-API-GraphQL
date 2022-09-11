@@ -13,6 +13,8 @@ mutation CreateUser{
                 id
                 email
                 noOfUsers
+                rating
+                freeToWork
                 updatedAt
                 createdAt
             }

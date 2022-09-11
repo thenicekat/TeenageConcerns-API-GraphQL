@@ -14,6 +14,8 @@ mutation UserLogin($uuid: String!) {
                 createdAt
                 email
                 id
+                rating
+                freeToWork
                 noOfUsers
                 updatedAt
             }

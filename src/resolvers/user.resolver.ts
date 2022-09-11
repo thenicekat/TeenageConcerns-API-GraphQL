@@ -24,16 +24,16 @@ export class UserResolver {
         @Ctx() { db, req }: Context
     ): Promise<UserReturn> {
         const resultUser = await db.getRepository(User).
-        createQueryBuilder("user")
-        .innerJoinAndSelect(
-            "user.mentor",
-            "m",
-            'm.id = user.mentorId'
-        )
-        .where({ uuid: uuid })
-        .getOne();
-        
-        if(resultUser == undefined){
+            createQueryBuilder("user")
+            .innerJoinAndSelect(
+                "user.mentor",
+                "m",
+                'm.id = user.mentorId'
+            )
+            .where({ uuid: uuid })
+            .getOne();
+
+        if (resultUser == undefined) {
             return {
                 errors: [{
                     field: "user",
@@ -44,14 +44,14 @@ export class UserResolver {
 
         req.session.isMentor = false;
         req.session.userId = uuid;
-        
+
         return { user: resultUser };
     }
 
     @Mutation(() => UserReturn)
-    async userCreate (
+    async userCreate(
         @Ctx() { db, req }: Context
-    ): Promise<UserReturn>{
+    ): Promise<UserReturn> {
         const newUUID = uuidv4();
         const mentors = await db.manager.find(Mentor, {
             order: {
@@ -60,7 +60,7 @@ export class UserResolver {
         });
 
         // Check if mentors are available
-        if(mentors.length < 1){
+        if (mentors.length < 1) {
             return {
                 errors: [{
                     field: "user",
@@ -68,16 +68,16 @@ export class UserResolver {
                 }]
             }
         }
-        
+
         //Find the first user who is free to work
         let i;
-        for(i = 0; i < mentors.length; i++){
-            if(mentors[i].freeToWork){
+        for (i = 0; i < mentors.length; i++) {
+            if (mentors[i].freeToWork) {
                 break;
             }
         }
 
-        if(i >= mentors.length){
+        if (i >= mentors.length) {
             return {
                 errors: [{
                     field: "Mentor Avaliablility",
@@ -90,22 +90,22 @@ export class UserResolver {
         const user = db.manager.create(User, {
             uuid: newUUID,
             mentorId: mentors[i].id
-        })  
+        })
         await db.manager.save(user);
         mentors[i].noOfUsers = mentors[i].noOfUsers + 1;
         await db.manager.save(mentors[i]);
 
         const resultUser = await db.getRepository(User).
-        createQueryBuilder("user")
-        .innerJoinAndSelect(
-            "user.mentor",
-            "m",
-            'm.id = user.mentorId'
-        )
-        .where({ id: user.id })
-        .getOne();
-        
-        if(resultUser == undefined){
+            createQueryBuilder("user")
+            .innerJoinAndSelect(
+                "user.mentor",
+                "m",
+                'm.id = user.mentorId'
+            )
+            .where({ id: user.id })
+            .getOne();
+
+        if (resultUser == undefined) {
             return {
                 errors: [{
                     field: "user",
@@ -116,20 +116,20 @@ export class UserResolver {
 
         req.session.isMentor = false;
         req.session.userId = newUUID;
-        
+
         return { user: resultUser };
     }
 
     @UseMiddleware(isAuthUser)
     @Mutation(() => Boolean)
-    async userDelete (
+    async userDelete(
         @Arg('uuid') uuid: string,
         @Ctx() { req, db }: Context
-    ){
+    ) {
         const user = await User.find({
-            where: {uuid: uuid}
+            where: { uuid: uuid }
         });
-        if(!user.length) return false;
+        if (!user.length) return false;
         await User.delete({
             uuid: uuid
         })
@@ -147,5 +147,19 @@ export class UserResolver {
             return err && false;
         })
         return true;
+    }
+
+    @UseMiddleware(isAuthUser)
+    @Mutation(() => Boolean)
+    userLogout(@Ctx() { req }: Context) {
+        return new Promise((res) =>
+            req.session.destroy((err) => {
+                if (err) {
+                    console.log(err);
+                    res(false);
+                }
+                res(true);
+            })
+        );
     }
 }
