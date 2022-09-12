@@ -1,7 +1,7 @@
 import { db } from "../src/data-source";
 import { testMutation } from "./testKit";
 import { UserRegister } from "./../graphql/mutations/userRegister";
-import { Mentor } from './../src/entity/Mentor';
+// import { Mentor } from './../src/entity/Mentor';
 import { faker } from "@faker-js/faker";
 import { MentorRegisterMutation } from "../graphql/mutations/mentorRegisterMutation";
 import { User } from "../src/entity/User";
