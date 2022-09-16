@@ -6,6 +6,7 @@ import { ErrorType } from "../types";
 import { User } from '../entity/User';
 import { Mentor } from "../entity/Mentor";
 import { isAuthUser } from "../middleware/auth.middleware";
+import { sendEmail } from "../utils/sendEmail";
 
 @ObjectType()
 export class UserReturn {
@@ -96,6 +97,9 @@ export class UserResolver {
         await db.manager.save(user);
         mentors[i].noOfUsers = mentors[i].noOfUsers + 1;
         await db.manager.save(mentors[i]);
+
+        //Send an email to the mentor
+        await sendEmail(mentors[i].email, user);
 
         const resultUser = await db.getRepository(User).
             createQueryBuilder("user")

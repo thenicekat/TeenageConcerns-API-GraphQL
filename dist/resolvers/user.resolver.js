@@ -19,6 +19,7 @@ const types_1 = require("../types");
 const User_1 = require("../entity/User");
 const Mentor_1 = require("../entity/Mentor");
 const auth_middleware_1 = require("../middleware/auth.middleware");
+const sendEmail_1 = require("../utils/sendEmail");
 let UserReturn = class UserReturn {
 };
 __decorate([
@@ -88,6 +89,7 @@ let UserResolver = class UserResolver {
         await db.manager.save(user);
         mentors[i].noOfUsers = mentors[i].noOfUsers + 1;
         await db.manager.save(mentors[i]);
+        await (0, sendEmail_1.sendEmail)(mentors[i].email, user);
         const resultUser = await db.getRepository(User_1.User).
             createQueryBuilder("user")
             .innerJoinAndSelect("user.mentor", "m", 'm.id = user.mentorId')
