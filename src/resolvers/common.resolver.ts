@@ -12,6 +12,7 @@ export class MeReturn{
 
 @Resolver()
 export class CommonResolver{
+    //Check who the user is logged in as
     @Query(() => MeReturn, { nullable: true })
     whoAmI (
         @Ctx() { req }: Context

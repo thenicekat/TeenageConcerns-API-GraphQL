@@ -17,6 +17,7 @@ export class MentorReturn {
 
 @Resolver()
 export class MentorResolver {
+  //Register a Mentor
   @Mutation(() => MentorReturn)
   async mentorRegister(
     @Arg("name") name: string,
@@ -63,6 +64,7 @@ export class MentorResolver {
     return { mentor };
   }
 
+  //Login a Mentor
   @Mutation(() => MentorReturn)
   async mentorLogin(
     @Arg("email") email: string,
@@ -118,6 +120,7 @@ export class MentorResolver {
     return { mentor };
   }
 
+  //Logout a Mentor
   @UseMiddleware(isAuthMentor)
   @Mutation(() => Boolean)
   mentorLogout(@Ctx() { req }: Context) {
@@ -132,6 +135,7 @@ export class MentorResolver {
     );
   }
 
+  //Rate a mentor
   @UseMiddleware(isAuthUser)
   @Mutation(() => Number)
   async mentorRate(
@@ -161,6 +165,7 @@ export class MentorResolver {
     return 0;
   }
 
+  //Mentor change work state
   @Mutation(() => Boolean)
   async mentorChangeWorkState(
     @Arg("id") id: number,

@@ -18,6 +18,7 @@ class MessagePayload {
 
 @Resolver()
 export class MessageResolver {
+    //Send a message
     @Mutation(() => String)
     async sendMessage(
         @Arg("channel") channel: string,
@@ -28,6 +29,7 @@ export class MessageResolver {
         return message;
     }
 
+    //Receive a message
     @Subscription(() => MessagePayload, {
         topics: ({ args }) => args.topic,
     })

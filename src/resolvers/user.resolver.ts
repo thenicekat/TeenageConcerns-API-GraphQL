@@ -18,6 +18,7 @@ export class UserReturn {
 
 @Resolver()
 export class UserResolver {
+    //Login an User
     @Mutation(() => UserReturn)
     async userLogin(
         @Arg("uuid") uuid: string,
@@ -48,6 +49,7 @@ export class UserResolver {
         return { user: resultUser };
     }
 
+    //Create a new User
     @Mutation(() => UserReturn)
     async userCreate(
         @Ctx() { db, req }: Context
@@ -120,6 +122,7 @@ export class UserResolver {
         return { user: resultUser };
     }
 
+    //Delete an user
     @UseMiddleware(isAuthUser)
     @Mutation(() => Boolean)
     async userDelete(
@@ -149,6 +152,7 @@ export class UserResolver {
         return true;
     }
 
+    //Logout an user
     @UseMiddleware(isAuthUser)
     @Mutation(() => Boolean)
     userLogout(@Ctx() { req }: Context) {
