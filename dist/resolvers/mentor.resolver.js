@@ -21,7 +21,7 @@ const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
 const types_1 = require("../types");
 const auth_middleware_1 = require("../middleware/auth.middleware");
-const auth_middleware_2 = require("./../middleware/auth.middleware");
+const validate_middleware_1 = require("./../middleware/validate.middleware");
 let MentorReturn = class MentorReturn {
 };
 __decorate([
@@ -156,6 +156,7 @@ let MentorResolver = class MentorResolver {
     }
 };
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(validate_middleware_1.isValidated),
     (0, type_graphql_1.Mutation)(() => MentorReturn),
     __param(0, (0, type_graphql_1.Arg)("name")),
     __param(1, (0, type_graphql_1.Arg)("email")),
@@ -166,6 +167,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], MentorResolver.prototype, "mentorRegister", null);
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(validate_middleware_1.isValidated),
     (0, type_graphql_1.Mutation)(() => MentorReturn),
     __param(0, (0, type_graphql_1.Arg)("email")),
     __param(1, (0, type_graphql_1.Arg)("password")),
@@ -183,7 +185,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], MentorResolver.prototype, "mentorLogout", null);
 __decorate([
-    (0, type_graphql_1.UseMiddleware)(auth_middleware_2.isAuthUser),
+    (0, type_graphql_1.UseMiddleware)(auth_middleware_1.isAuthUser),
     (0, type_graphql_1.Mutation)(() => Number),
     __param(0, (0, type_graphql_1.Arg)("rating")),
     __param(1, (0, type_graphql_1.Arg)("id")),

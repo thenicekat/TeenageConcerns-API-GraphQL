@@ -3,8 +3,8 @@ import { Context } from "../types";
 import { Arg, Ctx, Field, Mutation, ObjectType, Resolver, UseMiddleware } from "type-graphql";
 import argon2 from "argon2";
 import { ErrorType } from "../types";
-import { isAuthMentor } from "../middleware/auth.middleware";
-import { isAuthUser } from './../middleware/auth.middleware';
+import { isAuthMentor, isAuthUser } from "../middleware/auth.middleware";
+import { isValidated } from "./../middleware/validate.middleware";
 
 @ObjectType()
 export class MentorReturn {
@@ -18,6 +18,7 @@ export class MentorReturn {
 @Resolver()
 export class MentorResolver {
   //Register a Mentor
+  @UseMiddleware(isValidated)
   @Mutation(() => MentorReturn)
   async mentorRegister(
     @Arg("name") name: string,
@@ -65,6 +66,7 @@ export class MentorResolver {
   }
 
   //Login a Mentor
+  @UseMiddleware(isValidated)
   @Mutation(() => MentorReturn)
   async mentorLogin(
     @Arg("email") email: string,
@@ -154,14 +156,14 @@ export class MentorResolver {
     }
 
     //Calculate new rating from the existing rating and save it
-    const newRating = mentor?.rating == 0 ? rating : ((Number(mentor?.rating) + rating) /2)
+    const newRating = mentor?.rating == 0 ? rating : ((Number(mentor?.rating) + rating) / 2)
     //console.log(Number(mentor?.rating), rating, newRating)
     const res = await db.manager.save(Mentor, {
       id: id,
       rating: newRating
     })
 
-    if(res) return newRating;
+    if (res) return newRating;
     return 0;
   }
 
@@ -170,11 +172,11 @@ export class MentorResolver {
   async mentorChangeWorkState(
     @Arg("id") id: number,
     @Ctx() { db }: Context
-  ){
+  ) {
     const mentor = await db.getRepository(Mentor).findOne({
       where: { id: id }
     })
-    if(!mentor) return false;
+    if (!mentor) return false;
     const currState = mentor?.freeToWork;
     const newState = !currState;
     const newMentor = {
