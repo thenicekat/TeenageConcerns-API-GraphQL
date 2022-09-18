@@ -22,6 +22,10 @@ export class User extends BaseEntity{
     mentor: Mentor
 
     @Field()
+    @Column({type: "decimal", default: 0})
+    rating: number
+
+    @Field()
     @CreateDateColumn()
     createdAt: Date
 

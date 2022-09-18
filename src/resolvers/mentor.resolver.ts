@@ -4,6 +4,7 @@ import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import argon2 from "argon2";
 import { isAuthMentor, isAuthUser } from "../middleware/auth.middleware";
 import { isValidated } from "./../middleware/validate.middleware";
+import { User } from './../entity/User';
 
 @Resolver()
 export class MentorResolver {
@@ -133,12 +134,27 @@ export class MentorResolver {
   async mentorRate(
     @Arg("rating") rating: number,
     @Arg("id") id: number,
-    @Ctx() { db }: Context
+    @Ctx() { db, req }: Context
   ) {
     //Get existing Rating
     const mentor = await db.getRepository(Mentor).findOne({
       where: { id: id }
     })
+
+    //Find the user as well
+    const user = await db.getRepository(User).findOne({
+      where: {
+        id: Number(req.session.userId)
+      }
+    })
+
+    if(!user){
+      throw Error("Invalid User")
+    }
+
+    //Update rating on user's side as well
+    user.rating = rating;
+    await db.manager.save(User, user);
 
     //If mentor doesn't exist
     if (!mentor) {
@@ -146,14 +162,14 @@ export class MentorResolver {
     }
 
     //Calculate new rating from the existing rating and save it
-    const newRating = mentor?.rating == 0 ? rating : ((Number(mentor?.rating) + rating) / 2)
+    const newRating = mentor?.rating == 0 ? rating : ((Number(mentor?.rating) + rating))
     //console.log(Number(mentor?.rating), rating, newRating)
     const res = await db.manager.save(Mentor, {
       id: id,
       rating: newRating
     })
 
-    if (res) return newRating;
+    if (res) return newRating/mentor.noOfUsers;
     return 0;
   }
 
