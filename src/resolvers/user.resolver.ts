@@ -10,6 +10,19 @@ import { sendEmail } from "../utils/sendEmail";
 
 @Resolver()
 export class UserResolver {
+    @Mutation(() => [User])
+    //All users list
+    async userList(
+        @Ctx() { db }: Context
+    ){
+        const users = await db.getRepository(User)
+            .createQueryBuilder("user")
+            .innerJoinAndSelect("user.mentor", "m", "m.id = user.mentorId")
+            .getMany();
+        
+        return users;
+    }
+
     //Login an User
     @Mutation(() => UserReturn)
     async userLogin(

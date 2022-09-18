@@ -8,6 +8,19 @@ import { User } from './../entity/User';
 
 @Resolver()
 export class MentorResolver {
+  //Get all mentors
+  @Mutation(() => [Mentor])
+  async mentorList(
+    @Ctx() { db }: Context
+  ) {
+    const mentors = await db.getRepository(Mentor)
+      .createQueryBuilder("mentor")
+      .leftJoinAndSelect("mentor.users", "user")
+      .getMany();
+    
+    return mentors;
+  }
+
   //Register a Mentor
   @UseMiddleware(isValidated)
   @Mutation(() => MentorReturn)
@@ -75,6 +88,7 @@ export class MentorResolver {
       };
     }
 
+    //Here we are doing a left join on mentors, which basically means we are returning all the mentors
     const mentor = await db
       .getRepository(Mentor)
       .createQueryBuilder("mentor")
@@ -148,7 +162,7 @@ export class MentorResolver {
       }
     })
 
-    if(!user){
+    if (!user) {
       throw Error("Invalid User")
     }
 
@@ -169,7 +183,7 @@ export class MentorResolver {
       rating: newRating
     })
 
-    if (res) return newRating/mentor.noOfUsers;
+    if (res) return newRating / mentor.noOfUsers;
     return 0;
   }
 
