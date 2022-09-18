@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserResolver = exports.UserReturn = void 0;
+exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const uuid_1 = require("uuid");
 const types_1 = require("../types");
@@ -20,21 +20,14 @@ const User_1 = require("../entity/User");
 const Mentor_1 = require("../entity/Mentor");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const sendEmail_1 = require("../utils/sendEmail");
-let UserReturn = class UserReturn {
-};
-__decorate([
-    (0, type_graphql_1.Field)({ nullable: true }),
-    __metadata("design:type", User_1.User)
-], UserReturn.prototype, "user", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => [types_1.ErrorType], { nullable: true }),
-    __metadata("design:type", Array)
-], UserReturn.prototype, "errors", void 0);
-UserReturn = __decorate([
-    (0, type_graphql_1.ObjectType)()
-], UserReturn);
-exports.UserReturn = UserReturn;
 let UserResolver = class UserResolver {
+    async userList({ db }) {
+        const users = await db.getRepository(User_1.User)
+            .createQueryBuilder("user")
+            .innerJoinAndSelect("user.mentor", "m", "m.id = user.mentorId")
+            .getMany();
+        return users;
+    }
     async userLogin(uuid, { db, req }) {
         const resultUser = await db.getRepository(User_1.User).
             createQueryBuilder("user")
@@ -139,7 +132,14 @@ let UserResolver = class UserResolver {
     }
 };
 __decorate([
-    (0, type_graphql_1.Mutation)(() => UserReturn),
+    (0, type_graphql_1.Mutation)(() => [User_1.User]),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "userList", null);
+__decorate([
+    (0, type_graphql_1.Mutation)(() => types_1.UserReturn),
     __param(0, (0, type_graphql_1.Arg)("uuid")),
     __param(1, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
@@ -147,7 +147,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "userLogin", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => UserReturn),
+    (0, type_graphql_1.Mutation)(() => types_1.UserReturn),
     __param(0, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),

@@ -37,6 +37,11 @@ __decorate([
 ], User.prototype, "mentor", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({ type: "decimal", default: 0 }),
+    __metadata("design:type", Number)
+], User.prototype, "rating", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
     (0, typeorm_1.CreateDateColumn)(),
     __metadata("design:type", Date)
 ], User.prototype, "createdAt", void 0);

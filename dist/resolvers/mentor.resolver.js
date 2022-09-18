@@ -15,28 +15,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MentorResolver = exports.MentorReturn = void 0;
+exports.MentorResolver = void 0;
 const Mentor_1 = require("../entity/Mentor");
+const types_1 = require("../types");
 const type_graphql_1 = require("type-graphql");
 const argon2_1 = __importDefault(require("argon2"));
-const types_1 = require("../types");
 const auth_middleware_1 = require("../middleware/auth.middleware");
 const validate_middleware_1 = require("./../middleware/validate.middleware");
-let MentorReturn = class MentorReturn {
-};
-__decorate([
-    (0, type_graphql_1.Field)(() => Mentor_1.Mentor, { nullable: true }),
-    __metadata("design:type", Mentor_1.Mentor)
-], MentorReturn.prototype, "mentor", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => [types_1.ErrorType], { nullable: true }),
-    __metadata("design:type", Array)
-], MentorReturn.prototype, "errors", void 0);
-MentorReturn = __decorate([
-    (0, type_graphql_1.ObjectType)()
-], MentorReturn);
-exports.MentorReturn = MentorReturn;
+const User_1 = require("./../entity/User");
 let MentorResolver = class MentorResolver {
+    async mentorList({ db }) {
+        const mentors = await db.getRepository(Mentor_1.Mentor)
+            .createQueryBuilder("mentor")
+            .leftJoinAndSelect("mentor.users", "user")
+            .getMany();
+        return mentors;
+    }
     async mentorRegister(name, email, password, { db, req }) {
         if (!name || !email || !password) {
             return {
@@ -126,20 +120,30 @@ let MentorResolver = class MentorResolver {
             res(true);
         }));
     }
-    async mentorRate(rating, id, { db }) {
+    async mentorRate(rating, id, { db, req }) {
         const mentor = await db.getRepository(Mentor_1.Mentor).findOne({
             where: { id: id }
         });
+        const user = await db.getRepository(User_1.User).findOne({
+            where: {
+                id: Number(req.session.userId)
+            }
+        });
+        if (!user) {
+            throw Error("Invalid User");
+        }
+        user.rating = rating;
+        await db.manager.save(User_1.User, user);
         if (!mentor) {
             return 0;
         }
-        const newRating = (mentor === null || mentor === void 0 ? void 0 : mentor.rating) == 0 ? rating : ((Number(mentor === null || mentor === void 0 ? void 0 : mentor.rating) + rating) / 2);
+        const newRating = (mentor === null || mentor === void 0 ? void 0 : mentor.rating) == 0 ? rating : ((Number(mentor === null || mentor === void 0 ? void 0 : mentor.rating) + rating));
         const res = await db.manager.save(Mentor_1.Mentor, {
             id: id,
             rating: newRating
         });
         if (res)
-            return newRating;
+            return newRating / mentor.noOfUsers;
         return 0;
     }
     async mentorChangeWorkState(id, { db }) {
@@ -156,8 +160,15 @@ let MentorResolver = class MentorResolver {
     }
 };
 __decorate([
+    (0, type_graphql_1.Mutation)(() => [Mentor_1.Mentor]),
+    __param(0, (0, type_graphql_1.Ctx)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], MentorResolver.prototype, "mentorList", null);
+__decorate([
     (0, type_graphql_1.UseMiddleware)(validate_middleware_1.isValidated),
-    (0, type_graphql_1.Mutation)(() => MentorReturn),
+    (0, type_graphql_1.Mutation)(() => types_1.MentorReturn),
     __param(0, (0, type_graphql_1.Arg)("name")),
     __param(1, (0, type_graphql_1.Arg)("email")),
     __param(2, (0, type_graphql_1.Arg)("password")),
@@ -168,7 +179,7 @@ __decorate([
 ], MentorResolver.prototype, "mentorRegister", null);
 __decorate([
     (0, type_graphql_1.UseMiddleware)(validate_middleware_1.isValidated),
-    (0, type_graphql_1.Mutation)(() => MentorReturn),
+    (0, type_graphql_1.Mutation)(() => types_1.MentorReturn),
     __param(0, (0, type_graphql_1.Arg)("email")),
     __param(1, (0, type_graphql_1.Arg)("password")),
     __param(2, (0, type_graphql_1.Ctx)()),
