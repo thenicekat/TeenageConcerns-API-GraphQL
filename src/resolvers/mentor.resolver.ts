@@ -1,19 +1,9 @@
 import { Mentor } from "../entity/Mentor";
-import { Context } from "../types";
-import { Arg, Ctx, Field, Mutation, ObjectType, Resolver, UseMiddleware } from "type-graphql";
+import { Context, MentorReturn } from "../types";
+import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import argon2 from "argon2";
-import { ErrorType } from "../types";
 import { isAuthMentor, isAuthUser } from "../middleware/auth.middleware";
 import { isValidated } from "./../middleware/validate.middleware";
-
-@ObjectType()
-export class MentorReturn {
-  @Field(() => Mentor, { nullable: true })
-  mentor?: Mentor;
-
-  @Field(() => [ErrorType], { nullable: true })
-  errors?: ErrorType[];
-}
 
 @Resolver()
 export class MentorResolver {

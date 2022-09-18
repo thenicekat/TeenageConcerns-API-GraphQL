@@ -1,21 +1,12 @@
-import { Arg, Ctx, Field, Mutation, ObjectType, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Ctx, Mutation, Resolver, UseMiddleware } from "type-graphql";
 import { v4 as uuidv4 } from 'uuid';
-import { Context } from '../types';
-import { ErrorType } from "../types";
+import { Context, UserReturn } from '../types';
 
 import { User } from '../entity/User';
 import { Mentor } from "../entity/Mentor";
 import { isAuthUser } from "../middleware/auth.middleware";
 import { sendEmail } from "../utils/sendEmail";
 
-@ObjectType()
-export class UserReturn {
-    @Field({ nullable: true })
-    user?: User
-
-    @Field(() => [ErrorType], { nullable: true })
-    errors?: ErrorType[]
-}
 
 @Resolver()
 export class UserResolver {
