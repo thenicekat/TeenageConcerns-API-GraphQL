@@ -4,7 +4,7 @@ services:
   teenage-concerns-graphql-api:
     container_name: backend
     build: ./
-    command: yarn start
+    command: yarn dev
     working_dir: /usr/src/app
     environment:
       - POSTGRES_URI=postgres://postgres:postgres@postgres:5432/teenageconcerns
