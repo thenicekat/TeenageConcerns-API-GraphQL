@@ -1,8 +1,7 @@
 version: '3.9'
 
 services:
-  teenage-concerns-graphql-api:
-    container_name: backend
+  api:
     build: ./
     command: yarn dev
     working_dir: /usr/src/app
@@ -11,7 +10,7 @@ services:
       - NODE_ENV=production
       - REDIS_URI=redis://redis:6379
     ports:
-      - "5000:5000"
+      - 5000:5000
     depends_on:
       - postgres
       - redis
@@ -36,4 +35,11 @@ services:
     environment:
       - ALLOW_EMPTY_PASSWORD=yes
     command: ["redis-server", "--bind", "redis", "--port", "6379"]
-
+  
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf/:/etc/nginx/nginx.conf
