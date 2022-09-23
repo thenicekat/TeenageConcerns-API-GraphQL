@@ -18,7 +18,7 @@ describe('test the google auth resolver', () => {
         expect(res.errors).toBeUndefined();
 
         expect(res.data).toBeDefined();
-        expect(res.data?.getGoogleAuthURL).toBe(URL)
+        expect(res.data?.googleAuthURL).toBe(URL)
     })
 })
 

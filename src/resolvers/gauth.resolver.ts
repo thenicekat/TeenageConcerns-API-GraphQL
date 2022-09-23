@@ -1,7 +1,9 @@
-import { google, oauth2_v2 } from 'googleapis';
-import { GauthUserinfo } from '../types';
-import { Arg, Mutation, Resolver } from 'type-graphql';
+import { google } from 'googleapis';
+import { Context, GauthUserReturn } from '../types';
+import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
 import { GAUTH_CLIENT_ID, GAUTH_CLIENT_SECRET, GAUTH_REDIRECT_URL } from './../constants';
+import { Mentor } from './../entity/Mentor';
+import argon2 from "argon2";
 
 const oauth2Client = new google.auth.OAuth2(
   GAUTH_CLIENT_ID,
@@ -12,9 +14,8 @@ const oauth2Client = new google.auth.OAuth2(
 @Resolver()
 export class GoogleAuthResolver{
     @Mutation(() => String)
-    getGoogleAuthURL(
+    googleAuthURL(
     ) {         
-          // Access scopes for read-only Drive activity.
           const scopes = [
             'https://www.googleapis.com/auth/userinfo.email',
             'https://www.googleapis.com/auth/userinfo.profile'
@@ -33,10 +34,12 @@ export class GoogleAuthResolver{
           return authorizationUrl;
     }
 
-    @Mutation(() => GauthUserinfo)
-    async getGoogleUserInfo(
-      @Arg("code") code: string
-    ): Promise<oauth2_v2.Schema$Userinfo>{
+    @Mutation(() => GauthUserReturn)
+    async googleUserRegister(
+      @Ctx() { db }: Context,
+      @Arg("code") code: string,
+      @Arg("password") password: string
+    ): Promise<GauthUserReturn>{
       if(!code){
         throw Error("Invalid Credentials")
       }else{
@@ -50,10 +53,53 @@ export class GoogleAuthResolver{
 
         const user = await oauth.userinfo.get();
         const { data } = user;
-        return data;
-      }
-    }
 
-    
+        const mentor = await db.manager.findOne(Mentor, {
+          where: {
+            email: data.email as string
+          }
+        })
+
+        if(!mentor) {
+          //If mentor doesn't exist
+          const hash = await argon2.hash(password);
+          const mentor = db.manager.create(Mentor, {
+            name: data.name as string,
+            email: data.email as string,
+            password: hash,
+            users: []
+          })
+
+          try{
+            await db.manager.save(mentor);
+          }
+          catch (e) {
+            if (e.message.includes("duplicate key value")) {
+              return {
+                errors: [
+                  {
+                    field: "email",
+                    message: "Account already exists",
+                  },
+                ],
+              };
+            }
+          }
+
+          return {
+            userInfo: mentor
+          };
+        }
+      }
+
+      return {
+        errors: [
+          {
+            field: "Mentor",
+            message: "Some error occured"
+          }
+        ]
+      }
+    }    
 }
 

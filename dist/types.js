@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GauthUserinfo = exports.MentorReturn = exports.UserReturn = exports.ErrorType = void 0;
+exports.GauthUserReturn = exports.GauthUserinfo = exports.MentorReturn = exports.UserReturn = exports.ErrorType = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("./entity/User");
 const Mentor_1 = require("./entity/Mentor");
@@ -105,4 +105,18 @@ GauthUserinfo = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], GauthUserinfo);
 exports.GauthUserinfo = GauthUserinfo;
+let GauthUserReturn = class GauthUserReturn {
+};
+__decorate([
+    (0, type_graphql_1.Field)(() => Mentor_1.Mentor, { nullable: true }),
+    __metadata("design:type", Mentor_1.Mentor)
+], GauthUserReturn.prototype, "userInfo", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [ErrorType], { nullable: true }),
+    __metadata("design:type", Array)
+], GauthUserReturn.prototype, "errors", void 0);
+GauthUserReturn = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], GauthUserReturn);
+exports.GauthUserReturn = GauthUserReturn;
 //# sourceMappingURL=types.js.map
