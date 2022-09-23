@@ -77,6 +77,31 @@ mutation UserDelete($uuid: String!) {
     )
 }
 ```
+4. Logs out a user
+```
+mutation UserLogout {
+    userLogout
+}
+```
+5. Gets a list of all users
+```
+mutation UserList {
+    userList {
+      id
+      updatedAt
+      createdAt
+      uuid
+      mentor {
+        id
+        updatedAt
+        createdAt
+      } 
+      rating
+      mentorId
+    }
+  }
+```
+---
 ### Mentor
 1. Register a mentor
 ```
@@ -94,6 +119,8 @@ mutation MentorRegistration($email: String!, $password: String!, $name: String!)
             id
             name
             email
+            rating
+            freeToWork
             updatedAt
             createdAt
             noOfUsers
@@ -116,6 +143,8 @@ mutation MentorLogin($email: String!, $password: String!) {
             id
             name
             email
+            rating
+            freeToWork
             updatedAt
             createdAt
             noOfUsers
@@ -129,7 +158,40 @@ mutation MentorLogout {
     mentorLogout
 }
 ```
-
+4. Rate a mentor
+```
+mutation MentorRate($mentorRateId: Float!, $rating: Float!) {
+    mentorRate(id: $mentorRateId, rating: $rating)
+}
+```
+5. Change Work State for a mentor
+```
+mutation MentorChangeWorkState($mentorChangeWorkStateId: Float!) {
+    mentorChangeWorkState(id: $mentorChangeWorkStateId)
+}
+```
+6. Get a list of all mentors
+```
+mutation MentorList {
+    mentorList {
+      id
+      name
+      email
+      users {
+        id
+        createdAt
+        updatedAt
+        uuid
+      }
+      noOfUsers
+      createdAt
+      updatedAt
+      rating
+      freeToWork
+    }
+  }
+```
+---
 ### Messages and Chat
 1. Send a message
 ```
