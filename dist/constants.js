@@ -7,7 +7,7 @@ exports.__prod__ = process.env.NODE_ENV === 'production';
 exports.__test__ = process.env.NODE_ENV === 'test';
 exports.__local__ = false;
 exports.GAUTH_CLIENT_ID = process.env.GAUTH_CLIENT_ID || "TESTING_CLIENT_ID";
-exports.GAUTH_REDIRECT_URL = process.env.GAUTH_REDIRECT_URL;
+exports.GAUTH_REDIRECT_URL = process.env.GAUTH_REDIRECT_URL || "TESTING_REDIRECT_URL";
 exports.GAUTH_CLIENT_SECRET = process.env.GAUTH_CLIENT_SECRET;
 exports.TWITTER_SECRET = process.env.TWITTER_SECRET;
 exports.TWITTER_TOKEN = process.env.TWITTER_TOKEN;
