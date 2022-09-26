@@ -17,4 +17,4 @@ jobs:
         run: docker compose build
       
       - name: Run the tests and give coverage
-        run: docker compose -f docker-compose.yml run teenage-concerns-graphql-api yarn test
+        run: yarn prod-test
