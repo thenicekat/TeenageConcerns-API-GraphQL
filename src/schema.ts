@@ -9,6 +9,7 @@ import { MessageResolver } from "./resolvers/message.resolver";
 import { UserResolver } from "./resolvers/user.resolver";
 import { GoogleAuthResolver } from "./resolvers/gauth.resolver";
 import { __local__ } from "./constants";
+import { TwitterAuthResolver } from './resolvers/twitterAuth.resolver';
 
 export const pubSub = new RedisPubSub({
   publisher: new Redis({ host: __local__ ? "localhost" : "redis" }),
@@ -16,7 +17,7 @@ export const pubSub = new RedisPubSub({
 });
 
 export const createSchema = () => buildSchema({
-  resolvers: [UserResolver, MentorResolver, CommonResolver, MessageResolver, GoogleAuthResolver],
+  resolvers: [UserResolver, MentorResolver, CommonResolver, MessageResolver, GoogleAuthResolver, TwitterAuthResolver],
   validate: false,
   pubSub: pubSub,
 });
