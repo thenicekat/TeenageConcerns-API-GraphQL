@@ -11,6 +11,7 @@ const express_session_1 = __importDefault(require("express-session"));
 const ws_1 = require("graphql-ws/lib/use/ws");
 const http_1 = require("http");
 const ws_2 = __importDefault(require("ws"));
+require('dotenv').config();
 const data_source_1 = require("./data-source");
 const ioredis_1 = __importDefault(require("ioredis"));
 const constants_1 = require("./constants");

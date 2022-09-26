@@ -9,7 +9,7 @@ beforeAll(async () => {
 
 describe('test the google auth resolver', () => {
     it('tests if we are getting the correct URL or not', async () => {
-        const URL = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&include_granted_scopes=true&response_type=code&client_id=968274477291-ehl0pptitneekj42raqg2ims26k5uugi.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A5000"
+        const URL = "https://accounts.google.com/o/oauth2/v2/auth?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&include_granted_scopes=true&response_type=code&client_id=TESTING_CLIENT_ID&redirect_uri=http%3A%2F%2Flocalhost%3A5000"
         const res = await testMutation({
             source: GoogleAuthURL,
         })

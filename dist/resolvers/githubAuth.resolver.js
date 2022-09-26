@@ -18,10 +18,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubAuthResolver = void 0;
 const axios_1 = __importDefault(require("axios"));
 const argon2_1 = __importDefault(require("argon2"));
-const types_1 = require("src/types");
+const types_1 = require("../types");
 const type_graphql_1 = require("type-graphql");
 const constants_1 = require("./../constants");
-const Mentor_1 = require("src/entity/Mentor");
+const Mentor_1 = require("../entity/Mentor");
 let GithubAuthResolver = class GithubAuthResolver {
     githubAuthURL() {
         return "https://github.com/login/oauth/authorize?scope=user:email&client_id=" + constants_1.GITHUB_CLIENT_ID;

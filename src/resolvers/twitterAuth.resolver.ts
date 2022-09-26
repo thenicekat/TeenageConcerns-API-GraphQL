@@ -3,9 +3,9 @@ import Client, { auth } from "twitter-api-sdk";
 import { TWITTER_CLIENT_SECRET, TWITTER_REDIRECT_URL, TWITTER_CLIENT_ID } from './../constants';
 
 const authClient = new auth.OAuth2User({
-    client_id: TWITTER_CLIENT_ID,
-    client_secret: TWITTER_CLIENT_SECRET,
-    callback: TWITTER_REDIRECT_URL,
+    client_id: TWITTER_CLIENT_ID as string,
+    client_secret: TWITTER_CLIENT_SECRET  as string,
+    callback: TWITTER_REDIRECT_URL  as string,
     scopes: ["tweet.read", "users.read", "offline.access"],
 });
 

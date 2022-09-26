@@ -9,6 +9,8 @@ import { useServer } from "graphql-ws/lib/use/ws";
 import { createServer } from "http";
 import ws from "ws";
 
+require('dotenv').config()
+
 import { db } from "./data-source";
 
 import Redis from "ioredis";

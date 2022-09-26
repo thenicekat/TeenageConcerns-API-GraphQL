@@ -1,9 +1,9 @@
 import axios from "axios";
 import argon2 from 'argon2';
-import { Context, MentorReturn } from "src/types";
+import { Context, MentorReturn } from "../types";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { GITHUB_CLIENT_ID, GITHUB_REDIRECT_URL, GITHUB_CLIENT_SECRET } from './../constants';
-import { Mentor } from "src/entity/Mentor";
+import { Mentor } from "../entity/Mentor";
 
 @Resolver()
 export class GithubAuthResolver {
