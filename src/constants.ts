@@ -12,3 +12,6 @@ export const TWITTER_API_KEY = "ApWLJ9qRgmUx9c7cCB2tE6vTE";
 export const TWITTER_REDIRECT_URL = "http://localhost:5000";
 export const TWITTER_CLIENT_ID = "Z0pULTdDUnFJSnJZQTZPbHNIWUY6MTpjaQ";
 export const TWITTER_CLIENT_SECRET = "oq75kpO_vLzZJF8jiJjYn88VfUWMzvMznIGjbpSOt6pYh0hajp";
+export const GITHUB_CLIENT_ID = "a65cd43dac637e37c5e6";
+export const GITHUB_REDIRECT_URL = "http://localhost:5000";
+export const GITHUB_CLIENT_SECRET = "dc23435d455fba298b2859fc3c2fb01cfcb9a9a2";
