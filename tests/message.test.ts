@@ -4,6 +4,7 @@ import { SendMessage } from './../graphql/mutations/sendMutation';
 import { pubSub } from './../src/schema';
 import { ReceiveMessage } from './../graphql/subscriptions/receiveMessage';
 import { testMutation, testSubscription } from "./testKit";
+
 describe('test the messaging resolver', () => {
     it('tests the messaging service', async () => {
         const triggerSubscription = testMutation({
