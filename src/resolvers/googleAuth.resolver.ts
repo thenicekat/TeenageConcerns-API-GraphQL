@@ -1,8 +1,8 @@
 import { google } from 'googleapis';
 import { Context, GauthUserReturn } from '../types';
 import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
-import { GAUTH_CLIENT_ID, GAUTH_CLIENT_SECRET, GAUTH_REDIRECT_URL } from './../constants';
-import { Mentor } from './../entity/Mentor';
+import { GAUTH_CLIENT_ID, GAUTH_CLIENT_SECRET, GAUTH_REDIRECT_URL } from '../constants';
+import { Mentor } from '../entity/Mentor';
 import argon2 from "argon2";
 
 const oauth2Client = new google.auth.OAuth2(
