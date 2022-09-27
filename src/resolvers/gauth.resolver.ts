@@ -31,7 +31,7 @@ export class GoogleAuthResolver{
             // Enable incremental authorization. Recommended as a best practice.
             include_granted_scopes: true
           });
-          return authorizationUrl;
+          return decodeURI(authorizationUrl);
     }
 
     @Mutation(() => GauthUserReturn)
