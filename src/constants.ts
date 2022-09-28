@@ -2,7 +2,7 @@ export const PORT = (process.env.PORT && parseInt(process.env.PORT)) || 5000;
 export const COOKIE_KEY = 'cookey';
 export const __prod__ = process.env.NODE_ENV === 'production';
 export const __test__ = process.env.NODE_ENV === 'test';
-export const __local__ = true;
+export const __local__ = false;
 export const GAUTH_CLIENT_ID = process.env.GAUTH_CLIENT_ID || 'TESTING_CLIENT_ID';
 export const GAUTH_REDIRECT_URL = process.env.GAUTH_REDIRECT_URL || 'http://localhost:5000';
 export const GAUTH_CLIENT_SECRET = process.env.GAUTH_CLIENT_SECRET;
