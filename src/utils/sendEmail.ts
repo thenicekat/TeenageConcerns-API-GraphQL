@@ -6,7 +6,7 @@ export const sendEmail = async (receiverEmail: string, user: User) => {
         throw new Error("Did not find any receiver");
     }
 
-    //let testAccount = await nodemailer.createTestAccount();
+    // let testAccount = await nodemailer.createTestAccount();
     // console.log(testAccount)
     // {
     //     user: 'jnihrxph5zd2lr3b@ethereal.email',
@@ -22,8 +22,8 @@ export const sendEmail = async (receiverEmail: string, user: User) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: "jnihrxph5zd2lr3b@ethereal.email", // generated ethereal user
-            pass: "mUKgcuABq8HCHDFTV2", // generated ethereal password
+            user: "rbvpalt7ncag3ajo@ethereal.email", // generated ethereal user
+            pass: "Nbar6n37QsjZawchFC", // generated ethereal password
         },
     });
 

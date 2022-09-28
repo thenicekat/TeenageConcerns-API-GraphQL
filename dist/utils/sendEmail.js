@@ -9,6 +9,8 @@ const sendEmail = async (receiverEmail, user) => {
     if (!receiverEmail) {
         throw new Error("Did not find any receiver");
     }
+    let testAccount = await nodemailer_1.default.createTestAccount();
+    console.log(testAccount);
     let transporter = nodemailer_1.default.createTransport({
         host: "smtp.ethereal.email",
         port: 587,

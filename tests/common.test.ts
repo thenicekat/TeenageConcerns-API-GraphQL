@@ -66,7 +66,7 @@ describe("Tests the whoami query", () => {
             source: UserRegister,
             isMentor: false,
         });
-
+        console.log(res)
         expect(res).toBeDefined();
         expect(res.data).toBeDefined();
         expect(res.data?.userCreate).toBeDefined();

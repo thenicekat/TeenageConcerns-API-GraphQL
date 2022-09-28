@@ -21,7 +21,7 @@ const AppDataSource = new typeorm_1.DataSource({
 });
 const TestDataSource = new typeorm_1.DataSource({
     type: "postgres",
-    host: "postgres",
+    host: constants_1.__local__ ? "localhost" : "postgres",
     port: 5432,
     username: "postgres",
     password: "postgres",

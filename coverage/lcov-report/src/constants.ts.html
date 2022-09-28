@@ -25,14 +25,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">85.71% </span>
+                <span class="strong">54.54% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>6/7</span>
+                <span class='fraction'>6/11</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/17</span>
+                <span class='fraction'>19/19</span>
             </div>
         
             
@@ -79,38 +79,44 @@
 <a name='L14'></a><a href='#L14'>14</a>
 <a name='L15'></a><a href='#L15'>15</a>
 <a name='L16'></a><a href='#L16'>16</a>
-<a name='L17'></a><a href='#L17'>17</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-yes">5x</span></td><td class="text"><pre class="prettyprint lang-js">export const PORT = (process.env.PORT &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >parseInt(process.env.PORT))</span> || 5000;
-export const COOKIE_KEY = "cookey";
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span></td><td class="text"><pre class="prettyprint lang-js">export const PORT = (process.env.PORT &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >parseInt(process.env.PORT))</span> || 5000;
+export const COOKIE_KEY = 'cookey';
 export const __prod__ = process.env.NODE_ENV === 'production';
 export const __test__ = process.env.NODE_ENV === 'test';
 export const __local__ = true;
-export const GAUTH_CLIENT_ID = process.env.GAUTH_CLIENT_ID || "TESTING_CLIENT_ID";
-export const GAUTH_REDIRECT_URL = process.env.GAUTH_REDIRECT_URL || "TESTING_REDIRECT_URL";
+export const GAUTH_CLIENT_ID = process.env.GAUTH_CLIENT_ID || <span class="branch-1 cbranch-no" title="branch not covered" >'TESTING_CLIENT_ID';</span>
+export const GAUTH_REDIRECT_URL = process.env.GAUTH_REDIRECT_URL || <span class="branch-1 cbranch-no" title="branch not covered" >'http://localhost:5000';</span>
 export const GAUTH_CLIENT_SECRET = process.env.GAUTH_CLIENT_SECRET;
+export const GAUTH_TESTING_EMAIL = process.env.GAUTH_TESTING_EMAIL;
+export const GAUTH_TESTING_PASSWORD = process.env.GAUTH_TESTING_PASSWORD;
 export const TWITTER_SECRET = process.env.TWITTER_SECRET;
 export const TWITTER_TOKEN = process.env.TWITTER_TOKEN;
 export const TWITTER_API_KEY = process.env.TWITTER_API_KEY;
-export const TWITTER_REDIRECT_URL = process.env.TWITTER_REDIRECT_URL;
+export const TWITTER_REDIRECT_URL = process.env.TWITTER_REDIRECT_URL || <span class="branch-1 cbranch-no" title="branch not covered" >'http://localhost:5000';</span>
 export const TWITTER_CLIENT_ID = process.env.TWITTER_CLIENT_ID;
 export const TWITTER_CLIENT_SECRET = process.env.TWITTER_CLIENT_SECRET;
 export const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID;
-export const GITHUB_REDIRECT_URL = process.env.GITHUB_REDIRECT_URL;
+export const GITHUB_REDIRECT_URL = process.env.GITHUB_REDIRECT_URL || <span class="branch-1 cbranch-no" title="branch not covered" >'http://localhost:5000';</span>
 export const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -118,7 +124,7 @@ export const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;</pre></td>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-09-27T05:50:58.883Z
+                at 2022-09-28T13:13:36.358Z
             </div>
         <script src="../prettify.js"></script>
         <script>
