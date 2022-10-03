@@ -1,13 +1,11 @@
 import { db } from "../src/data-source";
 import { testMutation } from "./testKit";
 import { UserRegister } from "./../graphql/mutations/userRegister";
-// import { Mentor } from './../src/entity/Mentor';
 import { faker } from "@faker-js/faker";
 import { MentorRegisterMutation } from "../graphql/mutations/mentorRegisterMutation";
 import { User } from "../src/entity/User";
 import { UserLogin } from './../graphql/mutations/userLogin';
 import { UserDelete } from './../graphql/mutations/userDelete';
-import { pubSub } from './../src/schema';
 
 beforeAll(async () => {
   await db.initialize();
@@ -144,5 +142,4 @@ describe("Tests the user endpoints", () => {
 
 afterAll(() => {
   db.destroy();
-  pubSub.close();
 });

@@ -1,7 +1,6 @@
 import { testMutation } from './testKit';
 import { GoogleAuthURL } from '../graphql/mutations/gauthURLMutation';
 import { db } from '../src/data-source';
-import { pubSub } from '../src/schema';
 import { GAUTH_CLIENT_ID, GAUTH_REDIRECT_URL } from '../src/constants';
 
 
@@ -43,5 +42,4 @@ describe('tests if auth is going through using e2e testing', () => {
 
 afterAll(async () => {
     await db.destroy();
-    await pubSub.close();;
 })

@@ -1,6 +1,5 @@
 import { testMutation } from "./testKit";
 import { whoAmI } from "./../graphql/queries/whoami";
-import { pubSub } from "./../src/schema";
 import { faker } from "@faker-js/faker";
 import { MentorRegisterMutation } from "../graphql/mutations/mentorRegisterMutation";
 import { Mentor } from "../src/entity/Mentor";
@@ -108,5 +107,4 @@ describe("Tests the whoami query", () => {
 
 afterAll(() => {
     db.destroy();
-    pubSub.close();
 });

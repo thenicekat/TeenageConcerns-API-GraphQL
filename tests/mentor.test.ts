@@ -5,7 +5,6 @@ import { MentorRegisterMutation } from "../graphql/mutations/mentorRegisterMutat
 import { MentorLoginMutation } from "../graphql/mutations/mentorLoginMutation";
 import { Mentor } from './../src/entity/Mentor';
 import { MentorLogoutMutation } from './../graphql/mutations/mentorLogoutMutation';
-import { pubSub } from './../src/schema';
 
 beforeAll(async () => {
   //Clear the database and initialize it
@@ -94,5 +93,4 @@ describe("Tests the Mentor Endpoint", () => {
 
 afterAll(() => {
   db.destroy();
-  pubSub.close();
 });

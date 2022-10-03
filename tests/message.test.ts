@@ -1,7 +1,6 @@
 // import { testMutation, testSubscription } from './testKit';
 import "reflect-metadata";
 import { SendMessage } from './../graphql/mutations/sendMutation';
-import { pubSub } from './../src/schema';
 import { ReceiveMessage } from './../graphql/subscriptions/receiveMessage';
 import { testMutation, testSubscription } from "./testKit";
 
@@ -29,5 +28,4 @@ describe('test the messaging resolver', () => {
 })
 
 afterAll(() => {
-    pubSub.close();
 })

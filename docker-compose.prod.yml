@@ -20,8 +20,10 @@ services:
     build: ./
     command: yarn dev
     working_dir: /usr/src/app
+    env_file:
+      - ./.env
     environment:
-      - POSTGRES_URI=postgres://postgres:postgres@postgres:5432/teenageconcerns
+      - POSTGRES_URI=postgres://postgres:${DB_USER}@${DB_PSWD}:5432/teenageconcerns
       - NODE_ENV=production
       - REDIS_URI=redis://redis:6379
       - PORT=5001
@@ -36,9 +38,11 @@ services:
     hostname: postgres
     ports:
       - 5432:5432
+    env_file:
+      - ./.env
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PSWD}
       - POSTGRES_PORT=5432
     volumes:
       - ./postgres/init-script.sql:/docker-entrypoint-initdb.d/init-script.sql

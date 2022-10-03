@@ -1,5 +1,4 @@
-import Redis from "ioredis";
-import { RedisPubSub } from "graphql-redis-subscriptions";
+import { PubSub } from 'graphql-subscriptions';
 
 import { buildSchema } from "type-graphql";
 
@@ -12,10 +11,8 @@ import { __local__ } from "./constants";
 import { TwitterAuthResolver } from './resolvers/twitterAuth.resolver';
 import { GithubAuthResolver } from './resolvers/githubAuth.resolver';
 
-export const pubSub = new RedisPubSub({
-  publisher: new Redis({ host: __local__ ? "localhost" : "redis" }),
-  subscriber: new Redis({ host: __local__ ? "localhost" : "redis" }),
-});
+//Previously was using Redis PubSubEngine
+export const pubSub = new PubSub();
 
 export const createSchema = () => buildSchema({
   resolvers: [UserResolver, MentorResolver, CommonResolver, MessageResolver, GoogleAuthResolver, TwitterAuthResolver, GithubAuthResolver],
