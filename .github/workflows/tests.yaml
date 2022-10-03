@@ -13,8 +13,16 @@ jobs:
       - name: Check Out Repo 
         uses: actions/checkout@v2
       
-      - name: Build Container using docker compose
-        run: docker compose build
+      - name: Build
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: false
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/teenageconcerns-graphql:latest
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new
       
       - name: Run the tests and give coverage
         run: yarn prod-test
