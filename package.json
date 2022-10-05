@@ -28,7 +28,7 @@
       "test": "jest --detectOpenHandles --coverage",
       "up": "docker compose down && docker compose up --build",
       "prod-up": "docker compose down && docker compose -f docker-compose.prod.yml up --build",
-      "prod-test": "docker compose down && docker compose -f docker-compose.prod.yml build && docker compose -f docker-compose.prod.yml run api yarn test"
+      "prod-test": "docker compose -f docker-compose.prod.yml run api yarn test"
    },
    "author": "",
    "license": "ISC",
