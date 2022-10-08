@@ -1,5 +1,4 @@
 import axios from "axios";
-import argon2 from 'argon2';
 import { Context, MentorReturn } from "../types";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { GITHUB_CLIENT_ID, GITHUB_REDIRECT_URL, GITHUB_CLIENT_SECRET } from './../constants';
@@ -13,12 +12,12 @@ export class GithubAuthResolver {
     }
 
     @Mutation(() => MentorReturn)
-    async githubAuthRegister(
+    async githubAuth(
         @Arg("code") code: string,
-        @Arg("password") password: string,
         @Ctx() { db }: Context
-    ) {
-        axios.post('https://github.com/login/oauth/access_token', {
+    ): Promise<MentorReturn> {
+
+        const res = await axios.post('https://github.com/login/oauth/access_token', {
             client_id: GITHUB_CLIENT_ID,
             code: code,
             redirect_url: GITHUB_REDIRECT_URL,
@@ -28,60 +27,68 @@ export class GithubAuthResolver {
                 "Accept": "application/json"
             }
         })
-        .then(res => {
-            axios.get('https://api.github.com/user', {
-                headers: {
-                    "Authorization": "Bearer " + res.data.access_token
-                }
+
+        if(!res.data.access_token){
+            return {
+                errors: [{
+                    field: res.data.error,
+                    message: res.data.error_description as string
+                }]
+            }
+        } 
+
+        const resp = await axios.get('https://api.github.com/user', {
+            headers: {
+                "Authorization": "Bearer " + res.data.access_token
+            }
+        });
+
+        const mentor = await db.manager.findOne(Mentor, {
+            where: {
+                email: resp.data.email as string
+            }
+        })
+
+        if (!mentor) {
+            console.log("Mentor does not exist, Creating new account")
+            //Uses username instead of name to create a new account
+            const mentor = db.manager.create(Mentor, {
+                name: resp.data.login as string,
+                email: resp.data.email as string,
+                users: []
             })
-            .then(async resp => {
-                const mentor = await db.manager.findOne(Mentor, {
-                    where: {
-                        email: resp.data.email as string
-                    }
-                })
 
-                if (!mentor) {
-                    //If mentor doesn't exist
-                    //Uses username instead of name
-                    const hash = await argon2.hash(password);
-                    const mentor = db.manager.create(Mentor, {
-                        name: resp.data.login as string,
-                        email: resp.data.email as string,
-                        password: hash,
-                        users: []
-                    })
-
-                    try {
-                        await db.manager.save(mentor);
-                    }
-                    catch (e) {
-                        if (e.message.includes("duplicate key value")) {
-                            return {
-                                errors: [
-                                    {
-                                        field: "email",
-                                        message: "Account already exists",
-                                    },
-                                ],
-                            };
-                        }
-                    }
-
+            try {
+                await db.manager.save(mentor);
+                return {
+                    mentor: mentor
+                };
+            }
+            catch (e) {
+                if (e.message.includes("duplicate key value")) {
                     return {
-                        userInfo: mentor
+                        errors: [
+                            {
+                                field: "email",
+                                message: "Account already exists",
+                            },
+                        ],
                     };
                 }
+            }
+        }else{
+            console.log("Mentor Already Exists Login")
+            return {
+                mentor: mentor
+            }
+        }
 
-                return {
-                    errors: [{
-                        field: "Github Registration",
-                        message: "Error using github auth"
-                    }]
-                }
-            })
-            .catch(err => console.log(err))   
-        })
-        .catch(err => console.log(err))
-    } 
+        return {
+            errors: [{
+                field: "Github Registration Auth",
+                message: "Some error occured"
+            }]
+        }
+
+    }
 }

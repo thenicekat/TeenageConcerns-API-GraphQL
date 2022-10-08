@@ -13,6 +13,7 @@ const AppDataSource = new DataSource({
     database: "teenageconcerns",
     synchronize: true,
     logging: true,
+    dropSchema: false,
     entities: [User, Mentor],
     migrations: [],
     subscribers: [],

@@ -17,8 +17,8 @@ export class Mentor extends BaseEntity{
     @Column({ unique: true })
     email!: string
 
-    @Column()
-    password!: string
+    @Column({ nullable: true })
+    password: string
 
     @Field(() => [User])
     @OneToMany(() => User, user => user.mentor)
