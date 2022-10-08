@@ -95,12 +95,3 @@ export class GauthUserinfo {
     @Field(() => Boolean, { nullable: true })
     verified_email?: boolean | null;
 }
-
-@ObjectType()
-export class GauthUserReturn {
-    @Field(() => Mentor, { nullable: true })
-    userInfo?: Mentor
-
-    @Field(() => [ErrorType], { nullable: true })
-    errors?: ErrorType[];
-}

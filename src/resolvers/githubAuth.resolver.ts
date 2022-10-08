@@ -77,7 +77,7 @@ export class GithubAuthResolver {
                 }
             }
         }else{
-            console.log("Mentor Already Exists Login")
+            console.log("Mentor Already Exists Logging him in.")
             return {
                 mentor: mentor
             }
@@ -85,7 +85,7 @@ export class GithubAuthResolver {
 
         return {
             errors: [{
-                field: "Github Registration Auth",
+                field: "Github Auth",
                 message: "Some error occured"
             }]
         }
