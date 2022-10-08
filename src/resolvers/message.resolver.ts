@@ -21,11 +21,11 @@ export class MessageResolver {
     //Send a message
     @Mutation(() => String)
     async sendMessage(
-        @Arg("channel") channel: string,
+        @Arg("topic") topic: string,
         @Arg("message") message: string,
         @PubSub() pubSub: PubSubEngine
     ): Promise<string> {
-        await pubSub.publish(channel, { message });
+        await pubSub.publish(topic, { message });
         return message;
     }
 
