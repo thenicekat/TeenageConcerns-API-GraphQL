@@ -37,6 +37,8 @@ export class MentorReturn {
   @Field(() => [ErrorType], { nullable: true })
   errors?: ErrorType[];
 }
+
+//User info returning from Google Oauth
 @ObjectType()
 export class GauthUserinfo {
     /**

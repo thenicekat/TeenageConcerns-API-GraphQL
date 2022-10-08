@@ -8,14 +8,6 @@ export const sendEmail = async (receiverEmail: string, user: User) => {
 
     let testAccount = await nodemailer.createTestAccount();
     console.log(testAccount)
-    // {
-    //     user: 'jnihrxph5zd2lr3b@ethereal.email',
-    //     pass: 'mUKgcuABq8HCHDFTV2',
-    //     smtp: { host: 'smtp.ethereal.email', port: 587, secure: false },
-    //     imap: { host: 'imap.ethereal.email', port: 993, secure: true },
-    //     pop3: { host: 'pop3.ethereal.email', port: 995, secure: true },
-    //     web: 'https://ethereal.email'
-    // }
 
     let transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",

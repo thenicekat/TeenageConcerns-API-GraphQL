@@ -1,25 +1,27 @@
 import "reflect-metadata";
-
+//Express and Apollo Server Imports
 import { ApolloServer } from "apollo-server-express";
 import connectRedis from "connect-redis";
 import express from "express";
 import session from "express-session";
-
+//Imports for web socker
 import { useServer } from "graphql-ws/lib/use/ws";
 import { createServer } from "http";
 import ws from "ws";
-
+//Importing env
 require('dotenv').config()
-
+//Importing Database
 import { db } from "./data-source";
-
+//Importing Redis
 import Redis from "ioredis";
-
+//Importing Constants
 import { COOKIE_KEY, PORT, __local__, __prod__ } from "./constants";
-
+//Importing chalk for colorful outputs
 import chalk from "chalk";
+//Importing schema
 import { createSchema } from "./schema";
 
+//Redis store for storing the cookies
 let redisStore = connectRedis(session);
 
 db.initialize()
