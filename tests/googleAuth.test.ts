@@ -3,7 +3,6 @@ import { GoogleAuthURL } from '../graphql/mutations/gauthURLMutation';
 import { db } from '../src/data-source';
 import { GAUTH_CLIENT_ID, GAUTH_REDIRECT_URL } from '../src/constants';
 
-
 beforeAll(async () => {
     await db.initialize();
 })
@@ -22,22 +21,6 @@ describe('tests if auth is going through using e2e testing', () => {
         expect(res.data).toBeDefined();
         expect(decodeURI(res.data?.googleAuthURL)).toBe(decodeURI(URL))
     })
-
-    // it('tests the auth flow using puppeteer', async () => {
-    //     const browser = await puppeteer.launch({
-    //         executablePath: 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
-    //         headless: false
-    //     });
-
-    //     const page = await browser.newPage();
-    //     await page.setBypassCSP(true);
-    //     await page.goto(URL);
-    //     await page.type('#identifierId', GAUTH_TESTING_EMAIL as string);
-    //     await page.keyboard.press('Enter');
-    //     // await page.type('.whsOnd', GAUTH_TESTING_PASSWORD as string);
-    //     // await page.keyboard.press('Enter');
-
-    // })
 })
 
 afterAll(async () => {
