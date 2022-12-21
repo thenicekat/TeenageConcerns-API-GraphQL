@@ -9,14 +9,14 @@ This backend web server is made using Graph QL and typescript and has made exten
 The main goal of this project is to connect users, a.k.a. mentees, with mentors. This project lets anonymous users register and get a mentor assigned to them with whom they can talk about anything they want, say life issues, depression, etc. This project was initially made using a react app and a REST API, but I wanted to try it again in Typescript and Graph QL, so I made it from scratch. The frontend, which is supposed to be made in Next JS, is still under development.
 The Backend has the following features.
 
-Anonymous User - Registration using UUIDs
-Anonymous User - Log in using the same UUID
-Anonymous User - Delete Account using the same UUID
-Anonymous User - Rate the mentor he or she was allotted
-Mentor Registration
-Mentor Login
-Mentor Selection based on Rating → Higher Rating ⇒ Higher Chance of getting a user
-Chat between Mentor and a User using Graph QL Subscriptions
+- Anonymous User - Registration using UUIDs
+- Anonymous User - Log in using the same UUID
+- Anonymous User - Delete Account using the same UUID
+- Anonymous User - Rate the mentor he or she was allotted
+- Mentor Registration
+- Mentor Login
+- Mentor Selection based on Rating → Higher Rating ⇒ Higher Chance of getting a user
+- Chat between Mentor and a User using Graph QL Subscriptions
 
 ## Tests
 Tests were also written for most of the mutations and queries. No tests were written for the subscriptions cause I actually didn’t find a way to do that. The API is also dockerized using a multi-stage Docker file (Which was actually one of my tasks). This project was dockerized, mostly because I was too lazy to run Postgres every time;-; it was a good learning experience to work with docker.
