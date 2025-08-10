@@ -1,6 +1,6 @@
 # Teenage Concerns API - GraphQL Version
 
-Previous Version is at https://github.com/Divyateja04/TeenageConcerns-v1 and https://github.com/Divyateja04/TeenageConcerns-v1-API
+Previous Version is at https://github.com/thenicekat/TeenageConcerns-v1 and https://github.com/thenicekat/TeenageConcerns-v1-API
 This backend web server is made using Graph QL and typescript and has made extensive use of libraries such as:
 1. Type ORM - For managing Database connections
 2. Type Graph QL - For Decorators etc.
